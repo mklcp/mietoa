@@ -4,105 +4,66 @@
   <meta charset="UTF-8">
   <title>tỏaq mỉetōa</title>
   <style media="screen">
-    input.search_box {
-      border: 1px solid #F0F0F0;
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.8);
-      font-size: 20px;
-      width: 80%;
-      color: #000000;
-    }
-    body {
-      font-family: 'Segoe UI';
-      max-width: 500px;
-      margin: 0px auto;
-      padding-left: 10px;
-      padding-right: 10px;
-      padding-bottom: 40px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    tr {
-      display: flex;
-      align-items: stretch;
-    }
-
-    tr:nth-child(odd) {
-      margin-bottom: 5px;
-    }
-
-    tr:nth-child(even) {
-      margin-bottom: 25px;
-    }
-
-    tr:nth-child(odd) td:first-child {
-      font-weight: bold;
-    }
-
-    tr:nth-child(odd) td:nth-child(2) {
-      color: #92ba45;
-      padding-left: 10px;
-      font-size: small;
-      font-style: italic;
-    }
-
-    tr:nth-child(even) {
-      padding-left: 15px;
-    }
-
-    td:last-child {
-      flex: 1;
-      display: inline-block;
-    }
-
-    div.headerimage {
-      text-align: center;
-      margin-top: 24px;
-    }
-
-    span.toaqlanguage {
-      font-family: 'Trade Winds';
-    }
-
-    h1 {
-      text-align: center;
-    }
+  #nitoa { font-size: 20px; width: 80%; }
+  #nitoa, fieldset { border: 1px solid #F0F0F0; padding: 15px; background: rgba(255, 255, 255, 0.8); color: #000000; }
+  fieldset { float: right; padding: 0 0; text-align: center; }
+  #tuai { font-family: 'Segoe UI'; max-width: 500px; margin: 0px auto; padding-left: 10px; padding-right: 10px; padding-bottom: 40px; }
+  table { width: 100%; border-collapse: collapse; }
+  tr { display: flex; align-items: stretch; }
+  tr:nth-child(odd) { margin-bottom: 5px; }
+  tr:nth-child(even) { margin-bottom: 25px; }
+  tr:nth-child(odd) td:first-child { font-weight: bold; }
+  tr:nth-child(odd) td:nth-child(2) { color: #92ba45; padding-left: 10px; font-size: small; font-style: italic; }
+  tr:nth-child(even) { padding-left: 15px; }
+  td:last-child { flex: 1; display: inline-block; }
   </style>
   <script src="./toaq.js"></script>
   <script>
     function search() {
-      var sisvla = document.getElementById("sisvla");
-      var vla = sisvla.value.toLowerCase();
-      var not = "";
-      if (vla !== "") {
+      nitoa = document.getElementById("nitoa");
+      var toa = nitoa.value.toLowerCase();
+      var toaqcz = document.getElementById("toaq").checked;
+      var encz = document.getElementById("en").checked;
+      var typecz = document.getElementById("type").checked;
+      var kuaq = ""
+      if (toa) {
         for (i in data) {
-          if (data[i].toaq.toLowerCase().indexOf(vla) != -1 || data[i].en.toLowerCase().indexOf(vla) != -1) {
-            not += "<tr><td>" + data[i].toaq + "</td><td>" + data[i].type + "</td></tr><tr><td>" + data[i].en + "</td></tr>";
+          if ((toaqcz && (data[i].toaq.indexOf(toa) != -1)) || (encz && (data[i].en.indexOf(toa) != -1)) || (typecz && (data[i].type.indexOf(toa) != -1))) {
+            kuaq += "<tr><td>" + data[i].toaq + "</td><td>" + data[i].type + "</td></tr><tr><td>" + data[i].en + "</td></tr>";
           }
         }
+      } else {
+        kuaq += "<tr><td>Empty search!</td></tr>";
       }
-      not += ""
-      document.getElementById("jahe").innerHTML = not
-      sisvla.focus();
+      if (!(toaqcz || encz || typecz)) { // display the whole dictionary if no options
+        for (i in data) {
+          kuaq += "<tr><td>" + data[i].toaq + "</td><td>" + data[i].type + "</td></tr><tr><td>" + data[i].en + "</td></tr>";
+        }
+      }
+      document.getElementById("gosho").innerHTML = kuaq
+      nitoa.focus();
     }
-
     window.onload = function() {
-      document.getElementById("sisvla").onkeyup = search;
-      var sisvla = document.getElementById("sisvla");
-      sisvla.focus();
+      nitoa = document.getElementById("nitoa");
+      nitoa.onkeyup = search; // when an option is changed, it is necessary to re-trigger the keyup event to update the resulting list
+      nitoa.focus();
     }
   </script>
-
 </head>
-
 <body>
-  <input class="search_box" id="sisvla" type="text" placeholder="" size="14" /><br /><br />
-  <table id="jahe"></table>
-  <noscript>Your browser does not support JavaScript.</noscript>
+  <fieldset>
+    <form>
+      <p>Search Options</p>
+      <label><input type="checkbox" id="toaq" value="toaq" checked>toaq</label>
+      <label><input type="checkbox" id="en" value="en">english</label>
+      <label><input type="checkbox" id="type" value="type">type</label>
+    </form>
+  </fieldset>
+<div id="tuai">
+  <input id="nitoa" type="text" placeholder="" size="14" />
+  <br /><br />
+  <table id="gosho"></table>
+  <noscript>Your browser does not support JavaScript, which is required to make this dictionary works.</noscript>
+</div>
 </body>
-
 </html>

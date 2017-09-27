@@ -1,7 +1,13 @@
 {
-  "name": "micia",
+  "name": "mietoa",
   "dependencies": {
     "discord.js": ""
   },
-  "description": "toaq bot"
+  "description": "toaq bot",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  }
 }

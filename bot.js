@@ -8,8 +8,8 @@ const camxes_postproc = require('./camxes_postproc.js')
 const authorized_channels = ["some","channels","you","want","the","bot","to","be","active"] //personnal info
 client.login('the-bot-discord-token'); //personnal info
 
-const cmd = [".m",".s",".p",".h mietoa"]
-const recmd = [new RegExp("^"+cmd[0]+" "),new RegExp("^"+cmd[1]+" "),new RegExp("^"+cmd[2]+" "),new RegExp("^"+cmd[3]+"$")]
+const cmd = [".m",".s",".p",".help",".channels"]
+const recmd = [new RegExp("^"+cmd[0]+" "),new RegExp("^"+cmd[1]+" "),new RegExp("^"+cmd[2]+" "),new RegExp("^"+cmd[3]+"$"),new RegExp("^"+cmd[4]+"$")]
 const gochiaitao = {"shea":"_fỏa ji/ shẻa tỏatōa. go kuì bû dải tủa jí_","sia":"_tỉduāshaō go tu dó_","buo":"go bủo ka"}
 
 client.on('ready', () => {
@@ -71,13 +71,19 @@ client.on('message', msg => {
 
     if (recmd[3].test(toatoa)) {
       var toa = toatoa.slice(cmd[3].length+1);
-      [deskx(cmd[0],"return the matchs for word/phrase for the fields: toaq ⦅option o⦆, english type ⦅option y⦆, or english description ⦅option e⦆. The letteral + is required to indicate options. To search in multiple fields at one time, options _must_ be stringed, .e.g as it: .m +oy nao")
+      [deskx(cmd[0],"return the matchs for word/phrase for the fields: toaq ⦅option `o`⦆, english type ⦅option `y`⦆, or english description ⦅option `e`⦆. The letteral `+` is required to indicate options. To search in multiple fields at one time, options _must_ be stringed, .e.g as it: `.m +oy nao`.")
       ,deskx(cmd[1],"return a description of the first toaq word/phrase that _exactly_ matches. Only in english currently.")
-      ,"By default, both .m and .s don't care about the diacritics when performing a search. But the option t inverses this behavior."
-      ,deskx(cmd[2],"return a prettified parse of a toaq text")
-      ,deskx(cmd[3],"return the description of the bot mietoa and its options.")
+      ,"By default, both .m and .s don't care about the diacritics when performing a search. But the option `t` inverses this behavior."
+      ,deskx(cmd[2],"return a prettified parse of a toaq text.")
+      ,deskx(cmd[3],"return the description of the bot " + client.user.username + " and its options.")
+      ,deskx(cmd[4],"return the channels where " + client.user.username + " is active.")
       ,"This bot also works in Private Messages."
       ].map(function(x){msg.channel.send(x);});
+      return;
+    }
+
+    if (recmd[4].test(toatoa)) {
+      msg.channel.send(client.user.username + " is currently active in the channels: " + "#" + authorized_channels.join(", #") + "; and in PM.");
       return;
     }
   }
@@ -85,7 +91,7 @@ client.on('message', msg => {
 
 function sendtoaq(msg,i) {msg.channel.send(data[i].toaq + ", _" + data[i].t_en + "_: " + rivbiroda(data[i].d_en));}
 function rivbiroda(str) { return str.split('').map(function(x) { if (["_","*","\\"].includes(x)) {return "\\"+x } else {return x}}).join('') } // escape markdown tokens, since toaq's dict' use some of them
-function deskx(it,as) {return it + ": " + as}
+function deskx(it,as) {return "`"+it+"`"+": "+as}
 function undiak(toa) { return toa.replace(/[áàâāãǎả]/g,"a").replace(/[éèêēẽěẻ]/g,"e").replace(/[íìîīĩǐỉ]/g,"i").replace(/[óòôōõǒỏ]/g,"o").replace(/[úùûūũǔủ]/g,"u");}
 function camxit(str) {
 	try {	res = camxes.parse(camxes_preproc.preprocessing(str)); } catch (e) { return JSON.stringify(e); }

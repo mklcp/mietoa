@@ -1,0 +1,7 @@
+{
+  "name": "micia",
+  "dependencies": {
+    "discord.js": ""
+  },
+  "description": "toaq bot"
+}

@@ -17,8 +17,11 @@
   tr:nth-child(even) { padding-left: 15px; }
   td:last-child { flex: 1; display: inline-block; }
   </style>
-  <script src="./toaq.js"></script>
+  <script src="./toaq_dict.js"></script>
   <script>
+    function undiak(toa) {
+      return toa.replace(/[áàâāãǎả]/g,"a").replace(/[éèêēẽěẻ]/g,"e").replace(/[íìîīĩǐỉ]/g,"i").replace(/[óòôōõǒỏ]/g,"o").replace(/[úùûūũǔủ]/g,"u")
+    }
     function search() {
       nitoa = document.getElementById("nitoa");
       var toa = nitoa.value.toLowerCase();
@@ -27,17 +30,19 @@
       var typecz = document.getElementById("type").checked;
       var kuaq = ""
       if (toa) {
+        toa=undiak(toa);
         for (i in data) {
-          if ((toaqcz && (data[i].toaq.indexOf(toa) != -1)) || (encz && (data[i].en.indexOf(toa) != -1)) || (typecz && (data[i].type.indexOf(toa) != -1))) {
-            kuaq += "<tr><td>" + data[i].toaq + "</td><td>" + data[i].type + "</td></tr><tr><td>" + data[i].en + "</td></tr>";
+          if ((toaqcz && (data[i].toaq_undia.indexOf(toa)+1)) || (encz && (data[i].d_en.indexOf(toa)+1)) || (typecz && (data[i].t_en.indexOf(toa)+1))) {
+            kuaq += "<tr><td>" + data[i].toaq + "</td><td>" + data[i].t_en + "</td></tr><tr><td>" + data[i].d_en + "</td></tr>";
           }
         }
       } else {
         kuaq += "<tr><td>Empty search!</td></tr>";
       }
       if (!(toaqcz || encz || typecz)) { // display the whole dictionary if no options
+        kuaq = "" // needed since the else clause add "Empty search!" to the datnyvei called 'kuaq', which mess up css
         for (i in data) {
-          kuaq += "<tr><td>" + data[i].toaq + "</td><td>" + data[i].type + "</td></tr><tr><td>" + data[i].en + "</td></tr>";
+          kuaq += "<tr><td>" + data[i].toaq + "</td><td>" + data[i].t_en+ "</td></tr><tr><td>" + data[i].d_en + "</td></tr>";
         }
       }
       document.getElementById("gosho").innerHTML = kuaq

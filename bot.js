@@ -12,7 +12,7 @@ const eskptel = "[*A-Za-z0-9\\(\\)]*:? ?"
 const receskptel = new RegExp(eskptel)
 const coha_cmd = "^" + eskptel
 const cmd = ["\\.m","\\.s","\\.p","\\.help","\\.channels","\\.g"]
-const recmd = [new RegExp(coha_cmd+cmd[0]+" "),new RegExp("^"+cmd[1]+" "),new RegExp(coha_cmd+cmd[2]+" "),new RegExp(coha_cmd+cmd[3]+"$"),new RegExp(coha_cmd+cmd[4]+"$"),new RegExp(coha_cmd+cmd[5]+" ")]
+const recmd = [new RegExp(coha_cmd+cmd[0]+" "),new RegExp(coha_cmd+cmd[1]+" "),new RegExp(coha_cmd+cmd[2]+" "),new RegExp(coha_cmd+cmd[3]+"$"),new RegExp(coha_cmd+cmd[4]+"$"),new RegExp(coha_cmd+cmd[5]+" ")]
 const gochiaitao = {"shea":"_fỏa ji/ shẻa tỏatōa. go kuì bû dải tủa jí_","sia":"_tỉduāshaō go tu dó_","buo":"go bủo ka"}
 
 client.on('ready', () => {

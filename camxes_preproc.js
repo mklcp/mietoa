@@ -1,14 +1,14 @@
-﻿	
+﻿
 
     // ======================= //
     //    Toaq preprocessor    //
     // ======================= //
-     
+
     // Written by Ilmen (ilmen.pokebip <at> gmail.com)
     // Last change: 2014-04-30
-     
+
     // ======================================================================= //
-     
+
     var tone_marks =    "/\\^-~\"V?";
     var plain_vowels =  "aeiou";
     var acute_vowels =  "áéíóú";
@@ -18,20 +18,22 @@
     var tilde_vowels =  "ãẽĩõũ";
     var breve_vowels =  "ǎěǐǒǔ";
     var hooked_vowels = "ảẻỉỏủ";
-     
+
     // ======================================================================= //
-     
+
     function camxes_preprocessing(input) {
             if (!(typeof input.valueOf() === 'string'))
                     return "ERROR: Wrong input type.";
             input = toaq_diacritics_to_tone_marks(input);
             return input;
     }
-     
+
     module.exports.preprocessing = camxes_preprocessing;
-     
+    module.exports.toaq_tone_marks_to_diacritics = toaq_tone_marks_to_diacritics
+    module.exports.toaq_diacritics_to_tone_marks = toaq_diacritics_to_tone_marks
+
     // ======================================================================= //
-     
+
     function check_for_diacritic_vowel(chr) {
             var i;
             for (i = 0; i < 5; i++)
@@ -50,7 +52,7 @@
                     if (hooked_vowels[i] == chr) return [plain_vowels[i], "?"];
             return 0;
     }
-     
+
     function make_diacritic_vowel(vowel, tone) {
             var n = 0;
             while (plain_vowels[n] != vowel && n < 5) n++;
@@ -66,7 +68,7 @@
                     default:    return "•";  // Unknown tone
             }
     }
-     
+
     function toaq_diacritics_to_tone_marks(toaq) {
             if (!is_string(toaq)) return -1;
             for (var i = 0; i < toaq.length; i++) {
@@ -81,7 +83,7 @@
             }
             return toaq;
     }
-     
+
     function toaq_tone_marks_to_diacritics(toaq) {
             if (!is_string(toaq)) return -1;
             for (var i = 0; i < toaq.length; i++) {
@@ -99,25 +101,23 @@
             }
             return toaq;
     }
-     
+
     // ======================================================================= //
-     
+
     function is_string(v) {
         return typeof v.valueOf() === 'string';
     }
-     
+
     function str_replace(str, pos, len, sub) {
             if (pos <= str.length) {
                     if (pos + len >= str.length) len -= pos + len - str.length;
                     return str.substring(0, pos) + sub + str.substring(pos + len);
             } else return str;
     }
-     
+
     function chr_check(chr, list) {
             var i = 0;
             if (!is_string(list)) return false;
             do if (chr == list[i]) return true; while (i++ < list.length);
             return false;
     }
-
-

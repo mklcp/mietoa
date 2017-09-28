@@ -26,20 +26,21 @@
       nitoa = document.getElementById("nitoa");
       var toa = nitoa.value.toLowerCase();
       var toaqcz = document.getElementById("toaq").checked;
-      var encz = document.getElementById("en").checked;
+      var desccz = document.getElementById("desc").checked;
       var typecz = document.getElementById("type").checked;
+      var gloscz = document.getElementById("glos").checked;
       var kuaq = ""
       if (toa) {
         toa=undiak(toa);
         for (i in data) {
-          if ((toaqcz && (data[i].toaq_undia.indexOf(toa)+1)) || (encz && (data[i].d_en.indexOf(toa)+1)) || (typecz && (data[i].t_en.indexOf(toa)+1))) {
+          if ((toaqcz && (data[i].toaq_undia.indexOf(toa)+1)) || (gloscz && (data[i].g_en.indexOf(toa)+1)) || (desccz && (data[i].d_en.indexOf(toa)+1)) || (typecz && (data[i].t_en.indexOf(toa)+1))) {
             kuaq += "<tr><td>" + data[i].toaq + "</td><td>" + data[i].t_en + "</td></tr><tr><td>" + data[i].d_en + "</td></tr>";
           }
         }
       } else {
         kuaq += "<tr><td>Empty search!</td></tr>";
       }
-      if (!(toaqcz || encz || typecz)) { // display the whole dictionary if no options
+      if (!(toaqcz || desccz || typecz || gloscz)) { // display the whole dictionary if no options
         kuaq = "" // needed since the else clause add "Empty search!" to the datnyvei called 'kuaq', which mess up css
         for (i in data) {
           kuaq += "<tr><td>" + data[i].toaq + "</td><td>" + data[i].t_en+ "</td></tr><tr><td>" + data[i].d_en + "</td></tr>";
@@ -60,8 +61,9 @@
     <form>
       <p>Search Options</p>
       <label><input type="checkbox" id="toaq" value="toaq" checked>toaq</label>
-      <label><input type="checkbox" id="en" value="en">english</label>
+      <label><input type="checkbox" id="desc" value="desc">english</label>
       <label><input type="checkbox" id="type" value="type">type</label>
+      <label><input type="checkbox" id="glos" value="glos">gloss</label>
     </form>
   </fieldset>
 <div id="tuai">

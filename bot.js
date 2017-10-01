@@ -6,7 +6,7 @@ const camxes_preproc = require('./camxes_preproc.js')
 const camxes_postproc = require('./camxes_postproc.js')
 
 const authorized_channels = ["general","chiejo","off-topic"] //personnal info
-client.login('discord-token-of-the-bot'); //personnal info
+client.login('your-discord-token'); //personnal info
 
 client.on('ready', () => {
   console.log(gochiaitao.buo);
@@ -68,13 +68,13 @@ client.on('message', msg => {
     }
 
     if (recmd[3].test(toatoa)) {
-      [deskx(cmd[0],"return the matchs for word/phrase for the fields: toaq ⦅option `o`⦆, english type ⦅option `y`⦆, or english description ⦅option `e`⦆. The letteral `+` is required to indicate options. To search in multiple fields at one time, options _must_ be stringed, .e.g as it: `.m +oy nao`.")
-      ,deskx(cmd[1],"return a description of the first toaq word/phrase that _exactly_ matches. Only in english currently.")
+      [deskx(spofuroda(cmd[0]),"return the matchs for word/phrase for the fields: toaq (option `o`), english type (option `y`), or english description (option `e`). The letteral `+` is required to indicate options. To search in multiple fields at one time, options _must_ be stringed, .e.g as it: `.m +oy nao`.")
+      ,deskx(spofuroda(cmd[1]),"return a description of the first toaq word/phrase that _exactly_ matches. Only in english currently.")
       ,"By default, both .m and .s don't care about the diacritics when performing a search. But the option `t` inverses this behavior."
-      ,deskx(cmd[2],"return a prettified parse of a toaq text.")
-      ,deskx(cmd[3],"return the description of the bot " + client.user.username + " and its options.")
-      ,deskx(cmd[4],"return the channels where " + client.user.username + " is active.")
-      ,deskx(cmd[5],"return the gloss of the text. Like `.p` and unlike `.s` and `.m`, it supports both the so-called \"tone marks\" and diacritics. Possible options: `m` aligns each word of the gloss and each word of the input in a monospace font.")
+      ,deskx(spofuroda(cmd[2]),"return a prettified parse of a toaq text.")
+      ,deskx(spofuroda(cmd[3]),"return the description of the bot " + client.user.username + " and its options.")
+      ,deskx(spofuroda(cmd[4]),"return the channels where " + client.user.username + " is active.")
+      ,deskx(spofuroda(cmd[5]),"return the gloss of the text. Like `.p` and unlike `.s` and `.m`, it supports both the so-called \"tone marks\" and diacritics. Possible options: `m` aligns each word of the gloss and each word of the input in a monospace font.")
       ,"This bot also works in Private Messages."
       ].map(function(x){msg.channel.send(x);});
       return;
@@ -94,7 +94,7 @@ client.on('message', msg => {
         var toa = tao;
       }
       if (toa) {
-        toa=camxes_preproc.preprocessing(toa).split(' ').filter(function(x){return !(x==='')}); gw=glosser(toa);
+        toa=camxes_preproc.preprocessing(toa).split(' ').filter(function(x){return !(x==='')}); gw=glosser(toa); toa=toa.map(camxes_preproc.toaq_tone_marks_to_diacritics);
         if (monocz) {
           d=normaspa(toa,gw.map(spofuroda))
           msg.channel.send("```"+d[0].join(" ")+"\n"+d[1].join(" ")+"```");
@@ -124,7 +124,7 @@ const receskptel = new RegExp(eskptel)
 const coha_cmd = "^" + eskptel
 const cmd = ["\\.m","\\.s","\\.p","\\.help","\\.channels","\\.g"]
 const recmd = [new RegExp(coha_cmd+cmd[0]+" "),new RegExp(coha_cmd+cmd[1]+" "),new RegExp(coha_cmd+cmd[2]+" "),new RegExp(coha_cmd+cmd[3]+"$"),new RegExp(coha_cmd+cmd[4]+"$"),new RegExp(coha_cmd+cmd[5]+" ")]
-const gochiaitao = {"shea":"⟦_fỏa ji/ shẻa tỏatōa. go kuì bû dải tủa jí_⟧","sia":"⟦_tỉduāshaō go tu dó_⟧","buo":"go bủo ka","bu":"⟦_bủdūa_⟧"}
+const gochiaitao = {"shea":"[_fỏa ji/ shẻa tỏatōa. go kuì bû dải tủa jí_]","sia":"[_tỉduāshaō go tu dó_]","buo":"go bủo ka","bu":"[_bủdūa_]"}
 
 ttf = {"?":function(d){return "do/is."+d}
       ,"\/":function(d){return "that.which."+d}
@@ -154,7 +154,7 @@ function glosser(taotao) {
     var notow = t.replace(new RegExp("[-/\\\\~^?V]","g"),"").toLowerCase();
     var found_match=0; var ceres;
     for (i in data) { if (data[i].toaq_undia==notow) { ceres=i; found_match++; break; } }
-    var dc=data[ceres]; if (!found_match) { res.push(gochiaitao.bu) } else { res.push((ttf[dahitonw])((dc.g_en?dc.g_en:"⟦?⟧"))) }
+    var dc=data[ceres]; if (!found_match) { res.push(gochiaitao.bu) } else { res.push((ttf[dahitonw])((dc.g_en?dc.g_en:"[?]"))) }
   }
   return res
 }

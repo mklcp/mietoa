@@ -6,7 +6,7 @@ const camxes_preproc = require('./camxes_preproc.js')
 const camxes_postproc = require('./camxes_postproc.js')
 
 const authorized_channels = ["general","chiejo","off-topic"] //personnal info
-client.login('your-discord-token'); //personnal info
+client.login('your-discord-token');
 
 client.on('ready', () => {
   console.log(gochiaitao.buo);
@@ -124,7 +124,7 @@ const receskptel = new RegExp(eskptel)
 const coha_cmd = "^" + eskptel
 const cmd = ["\\.m","\\.s","\\.p","\\.help","\\.channels","\\.g"]
 const recmd = [new RegExp(coha_cmd+cmd[0]+" "),new RegExp(coha_cmd+cmd[1]+" "),new RegExp(coha_cmd+cmd[2]+" "),new RegExp(coha_cmd+cmd[3]+"$"),new RegExp(coha_cmd+cmd[4]+"$"),new RegExp(coha_cmd+cmd[5]+" ")]
-const gochiaitao = {"shea":"[_fỏa ji/ shẻa tỏatōa. go kuì bû dải tủa jí_]","sia":"[_tỉduāshaō go tu dó_]","buo":"go bủo ka","bu":"[_bủdūa_]"}
+const gochiaitao = {"shea":"[_fỏa ji/ shẻa tỏatōa. go kuì bû dải tủa jí_]","sia":"[_tỉduāshaō go tu dó_]","buo":"go bủo ka","bu":"[_dủabū_]"}
 
 ttf = {"?":function(d){return "do/is."+d}
       ,"\/":function(d){return "that.which."+d}
@@ -154,7 +154,7 @@ function glosser(taotao) {
     var notow = t.replace(new RegExp("[-/\\\\~^?V]","g"),"").toLowerCase();
     var found_match=0; var ceres;
     for (i in data) { if (data[i].toaq_undia==notow) { ceres=i; found_match++; break; } }
-    var dc=data[ceres]; if (!found_match) { res.push(gochiaitao.bu) } else { res.push((ttf[dahitonw])((dc.g_en?dc.g_en:"[?]"))) }
+    var dc=data[ceres]; res.push((ttf[dahitonw])(((dc.g_en||(!found_match))?dc.g_en:"[?]")))
   }
   return res
 }

@@ -3,7 +3,7 @@ Some utilities for the [toaq](http://toaq.org) language, featuring:
 + an interactive dictionary:
   + involving the files:
     + `dic.html`
-    + `toaq_undiak_dict.js`
+    + `toaq_dict.js`
   + launch with:
     + open `dic.html` in a ⦅modern⦆ browser
 + a discord bot, able to search, match, and parse ⦅see the output of the `.h mietoa` command when invoked from discord⦆

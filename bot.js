@@ -25,7 +25,7 @@ client.on('message', msg => {
         var found_match = 0;
         if (!untonecz) { toa = undiak(toa); }
         for (i in data) {
-          if ((toaqcz && ((!untonecz?data[i].toaq_undia:data[i].toaq).indexOf(toa)+1)) || (encz && (data[i].d_en.indexOf(toa)+1)) || (typecz && (data[i].t_en.indexOf(toa)+1))) {
+          if ((toaqcz && ((!untonecz?data[i].toaq:data[i].dtoaq).indexOf(toa)+1)) || (encz && (data[i].den.indexOf(toa)+1)) || (typecz && (data[i].ten.indexOf(toa)+1))) {
             sendtoaq(msg,i); found_match++; break;
           }
         }
@@ -48,7 +48,7 @@ client.on('message', msg => {
         var found_match = 0;
         if (!untonecz) { toa = undiak(toa); }
         for (i in data) {
-          if ((!untonecz?data[i].toaq_undia:data[i].toaq)==toa) {
+          if ((!untonecz?data[i].toaq:data[i].dtoaq)==toa) {
             sendtoaq(msg,i); found_match++; break;
           }
         }
@@ -137,7 +137,7 @@ ttf = {"?":function(d){return "do/is."+d}
 
 tone_marks = Object.keys(ttf)
 
-function sendtoaq(msg,i) {msg.channel.send(data[i].toaq + ", _" + data[i].t_en + "_: " + rivbiroda(data[i].d_en));}
+function sendtoaq(msg,i) {msg.channel.send(data[i].dtoaq + ", _" + data[i].ten + "_: " + rivbiroda(data[i].den));}
 function rivbiroda(str) { return str.split('').map(function(x) { if (["_","*","\\"].includes(x)) {return "\\"+x } else {return x}}).join('') } // escape markdown tokens, since toaq's dict' use some of them
 function spofuroda(str) { a=(typeof str === 'string'); if(a) {str=str.split('')} b=str.filter(function(x) { return !((["_","\\"]).includes(x)) }); if (a) {b=b.join('')}; return b }
 function deskx(it,as) {return "`"+it+"`"+": "+as}
@@ -153,8 +153,8 @@ function glosser(taotao) {
     t=taotao[t]; var dahitonw = "∅"; for (i in t) { if (tone_marks.includes(t[i])) {dahitonw=t[i]; break;} }
     var notow = t.replace(new RegExp("[-/\\\\~^?V]","g"),"").toLowerCase();
     var found_match=0; var ceres;
-    for (i in data) { if (data[i].toaq_undia==notow) { ceres=i; found_match++; break; } }
-    var dc=data[ceres]; res.push((ttf[dahitonw])(((dc.g_en||(!found_match))?dc.g_en:"[?]")))
+    for (i in data) { if (data[i].toaq==notow) { ceres=i; found_match++; break; } }
+    var dc=data[ceres]; res.push((ttf[dahitonw])(((dc.gen||(!found_match))?dc.gen:"[?]")))
   }
   return res
 }

@@ -2,64 +2,86 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>tỏaq mỉetōa</title>
+  <title>mỉetōa</title>
   <link rel="stylesheet" type="text/css" href="./dic.css">
   <script src="./toaq_dict.js"></script>
   <script>
-    function cz(b) {
-      this.val = b;
-      this.mut = function() { return this.val = !this.val }
-      this.getval = function() { return this.val }
+    function cz(e) {
+      this.e = e;
+      this.b = (e.style.background==="rgb(206, 12, 120) none repeat scroll 0% 0%")?(true):(false);
+      this.m = function() { this.c(); return this.b = !this.b }
+      this.s = function(bool) { if (!this.b) { this.c() }; return this.b = bool }
+      this.c = function() { this.e.style.background=(this.b)?("#333"):("#ce0c78"); }
     }
-    var toaqcz = new cz(true);
-    var desccz = new cz(true);
-    var gloscz = new cz(false);
-    var typecz = new cz(false);
     function undiak(toa) {
       return toa.replace(/[áàâāãǎả]/g,"a").replace(/[éèêēẽěẻ]/g,"e").replace(/[íìîīĩǐỉ]/g,"i").replace(/[óòôōõǒỏ]/g,"o").replace(/[úùûūũǔủ]/g,"u")
     }
-    function search() {
-      nitoa = document.getElementById("nitoa");
-      var toa = nitoa.value.toLowerCase();
-      //var toaqcz = document.getElementById("toaq").checked;
-      var kuaq = ""
-      if (toa) {
-        toa=undiak(toa);
+    function kaoti(i) {
+      return "<tr><td>" + data[i].dtoaq + "</td><td>" + data[i].ten + "</td></tr><tr><td>" + data[i].den + "</td></tr>";
+    }
+    function dmea(args,toa) {
+      return args.map(e => e.indexOf(toa)+1).reduce((a,x) => a || x)
+    }
+    function djeq(args,toa) {
+      return args.map(e => e === toa).reduce((a,x) => a || x)
+    }
+    function dsiao(args,toa) {
+      return args.map(e => e.indexOf(toa) === 0).reduce((a,x) => a || x)
+    }
+    function cl(qsd) { console.log(qsd) }
+    function duasho(ta) {
+      var mea = ""
+      var jeq = ""
+      var siao = ""
+      if (ta) {
+        toa=undiak(ta);
+        var fields = keyczs.filter(j => czs[j].b ).map(j => (e => data[e][j]))
         for (i in data) {
-          if ((toaqcz.getval() && (data[i].toaq_undia.indexOf(toa)+1)) || (gloscz.getval() && (data[i].g_en.indexOf(toa)+1)) || (desccz.getval() && (data[i].d_en.indexOf(toa)+1)) || (typecz.getval() && (data[i].t_en.indexOf(toa)+1))) {
-            kuaq += "<tr><td>" + data[i].toaq + "</td><td>" + data[i].t_en + "</td></tr><tr><td>" + data[i].d_en + "</td></tr>";
-          }
+          var rec = fields.map(e => e(i)).filter(e => e !== undefined)
+          if (djeq(rec,toa)) { jeq += kaoti(i) } else if (dsiao(rec,toa)) { siao += kaoti(i) } else if (dmea(rec,toa)) { mea += kaoti(i) }
         }
+        document.getElementById("gosho").innerHTML = (jeq+siao+mea)?(jeq+siao+mea):("<tr><td>Nothing found!</td></tr>")
       } else {
-        kuaq += "<tr><td>Empty search!</td></tr>";
+        document.getElementById("gosho").innerHTML = "<tr><td>Empty search!</td></tr>";
       }
-      if (!(toaqcz.getval() || desccz.getval() || typecz.getval() || gloscz.getval())) { // display the whole dictionary if no options
-        kuaq = "" // needed since the else clause add "Empty search!" to the datnyvei called 'kuaq', which mess up css
-        for (i in data) {
-          kuaq += "<tr><td>" + data[i].toaq + "</td><td>" + data[i].t_en+ "</td></tr><tr><td>" + data[i].d_en + "</td></tr>";
-        }
-      }
-      document.getElementById("gosho").innerHTML = kuaq
+      window.history.pushState({}, null, "dic.html#"+ta);
+      document.title = "mỉetōa: "+ta
       nitoa.focus();
     }
+    function urldua() {
+      var a = location.href.slice(location.href.indexOf("#")+1).split("&")
+      if (a) { var b = decodeURI(a[0]); 
+        for (i in keyczs) { if (a.slice(1).includes(keyczs[i])) { czs[keyczs[i]].s(true)} }
+        nitoa.value = b; duasho(b); }
+    }
+    function nitov() {
+      return nitoa.value.toLowerCase()
+    }
     window.onload = function() {
+      toaqcz = new cz(document.getElementById("toaq"));
+      dencz = new cz(document.getElementById("den"));
+      gencz = new cz(document.getElementById("gen"));
+      tencz = new cz(document.getElementById("ten"));
+      czs = {"toaq":toaqcz,"den":dencz,"ten":tencz,"gen":gencz}
+      keyczs = Object.keys(czs)
       nitoa = document.getElementById("nitoa");
-      nitoa.onkeyup = search; // when an option is changed, it is necessary to re-trigger the keyup event to update the resulting list
+      window.addEventListener('popstate', urldua);
       nitoa.focus();
+      urldua();
     }
   </script>
 </head>
 <body>
   <fieldset>
     <form>
-      <span class="check"><span class="out"><input type="checkbox" id="toaq" onclick="search();toaqcz.mut();" value="toaq" checked><span class="in"></span></span><label>toaq</label></span>
-      <span class="check"><span class="out"><input type="checkbox" id="desc" onclick="search();desccz.mut();" value="desc" checked><span class="in"></span></span><label>english</label></span>
-      <span class="check"><span class="out"><input type="checkbox" id="type" onclick="search();typecz.mut();" value="type"><span class="in"></span></span><label>type</label></span>
-      <span class="check"><span class="out"><input type="checkbox" id="glos" onclick="search();gloscz.mut();" value="glos"><span class="in"></span></span><label>gloss</label></span>
+      <span class="check"><span class="sao"><span class="nui" id="toaq" onclick="toaqcz.m();duasho(nitov());" style="background:#ce0c78"></span></span><label>toaq</label></span>
+      <span class="check"><span class="sao"><span class="nui" id="den" onclick="dencz.m();duasho(nitov());" style="background:#ce0c78"></span></span><label>description</label></span>
+      <span class="check"><span class="sao"><span class="nui" id="ten" onclick="tencz.m();duasho(nitov());"></span></span><label>type</label></span>
+      <span class="check"><span class="sao"><span class="nui" id="gen" onclick="gencz.m();duasho(nitov());"></span></span><label>gloss</label></span>
     </form>
   </fieldset>
 <div id="tuai">
-  <input id="nitoa" type="text" placeholder="" size="14" />
+  <input id="nitoa" type="text" placeholder="" size="14" onkeyup="duasho(nitov());" />
   <br /><br />
   <table id="gosho"></table>
   <noscript>Your browser does not support JavaScript, which is required to make this dictionary works.</noscript>

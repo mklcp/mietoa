@@ -28,7 +28,6 @@
     function dsiao(args,toa) {
       return args.map(e => e.indexOf(toa) === 0).reduce((a,x) => a || x)
     }
-    function cl(qsd) { console.log(qsd) }
     function duasho(ta) {
       var mea = ""
       var jeq = ""
@@ -49,10 +48,13 @@
       nitoa.focus();
     }
     function urldua() {
-      var a = location.href.slice(location.href.indexOf("#")+1).split("&")
-      if (a) { var b = decodeURI(a[0]); 
+      var p = location.href.indexOf("#")
+      if (p!==-1) {
+        var a = location.href.slice(p+1).split("&")
+        var b = decodeURI(a[0]); 
         for (i in keyczs) { if (a.slice(1).includes(keyczs[i])) { czs[keyczs[i]].s(true)} }
-        nitoa.value = b; duasho(b); }
+        nitoa.value = b; duasho(b);
+      }
     }
     function nitov() {
       return nitoa.value.toLowerCase()

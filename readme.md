@@ -17,6 +17,8 @@ Some utilities for the [toaq](http://toaq.org) language, featuring:
   + how to use:
   	+ type `.help` in a room where the bot is present
 
+To use the dictionary offline, download this repository and launch it.
+
 ##### generate the dictionary in a json format
 ###### [toaq.org/dictionary](toaq.org/dictionary)
 ```bash
@@ -31,5 +33,4 @@ wget http://toaq.org/dict.html; perl -i -p -e 's?</style>?</style>\n?g;s?<tr?\n<
 cat dict.html | grep '{"dtoaq"' > undex.html; cat undex.html | grep -oP '{"dtoaq":.*,"ten"' | sed -E 's/[áàâāãǎả]/a/g;s/[éèêēẽěẻ]/e/g;s/[íìîīĩǐỉ]/i/g;s/[óòôōõǒỏ]/o/g;s/[úùûūũǔủ]/u/g;s/\{\"dtoaq\"\:/\"toaq\":/g;s/",".*/"\},/g;' > undia;
 paste -d ',' undex.html undia > toaq_dict.js; rm undia; rm undex.html; rm dict.html; perl -i -p -e 'print "data = [\n" if $. == 1' toaq_dict.js; echo "]" >> toaq_dict.js; perl -i -p -e 's/\r\",\"/\",\"/g;s/{"dtoaq":"toaq","ten":"type","gen":"gloss","den":"definition","toaq":"toaq"},\n//g;' toaq_dict.js
 ```
-
 ⦅Not necessary to use either the dict' or the bot, but useful.⦆

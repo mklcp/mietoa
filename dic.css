@@ -1,7 +1,5 @@
 body { background: #FC98EE79 }
-#nitoa { font-size: 20px; width: 80%; }
-#nitoa, fieldset { border: 1px solid #bbb; padding: 15px; background: #A1FDFF79; color: #000000; border-radius: 20px }
-fieldset { float: right; text-align: center; }
+#nitoa, form { font-size: 20px; border: 1px solid #bbb; padding: 15px; background: #A1FDFF79; color: #000000; border-radius: 20px }
 #tuai { font-family: 'Segoe UI'; max-width: 500px; margin: 0px auto; padding-left: 10px; padding-right: 10px; padding-bottom: 40px; }
 table { width: 100%; border-collapse: collapse; }
 tr { display: flex; align-items: stretch; }
@@ -11,8 +9,18 @@ tr:nth-child(odd) td:first-child { font-weight: bold; }
 tr:nth-child(odd) td:nth-child(2) { color: #00d040; padding-left: 10px; font-size: small; font-style: italic; }
 tr:nth-child(even) { padding-left: 15px; }
 td:last-child { flex: 1; display: inline-block; }
-label { padding-left: 7px; font-size: 11pt }
-.check { display: block; text-align: left }
+label { padding-left: 7px; font-size: 11pt; }
+#nitoa { width: 90%; }
+fieldset { border: none }
+@media (min-width: 823px) {
+    fieldset { float: right; }
+    .check { display: block; text-align: left }
+}
+@media (max-width: 823px) {
+   fieldset { max-width: 500px; margin: 0px auto; }
+    form { width: 90% }
+   .check { display: inline-block; text-align: left }
+}
 .sao {
     display: inline-block;
     width: 20px;
@@ -24,7 +32,6 @@ label { padding-left: 7px; font-size: 11pt }
     box-shadow: 1px 2px 3px rgba(0,0,0,0.5);
 }
 .nui {
-    display: block;
     width: 14px;
     height: 14px;
     border-radius: 100px;

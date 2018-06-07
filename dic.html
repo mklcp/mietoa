@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>mỉetōa</title>
-  <link rel="stylesheet" type="text/css" href="./dic.css">
+  <link rel="stylesheet" type="text/css" href="./dic.css" media="screen">
   <script src="./toaq_dict.js"></script>
   <script>
     function cz(e) {
       this.e = e;
-      this.b = (e.style.background==="rgb(206, 12, 120) none repeat scroll 0% 0%")?(true):(false);
+      this.b = (e.style["background-color"]==="rgb(206, 12, 120)")?(true):(false);
       this.m = function() { this.c(); return this.b = !this.b }
       this.s = function(bool) { if (!this.b) { this.c() }; return this.b = bool }
       this.c = function() { this.e.style.background=(this.b)?("#333"):("#ce0c78"); }
@@ -23,28 +23,36 @@
       return args.map(e => e.indexOf(toa)+1).reduce((a,x) => a || x)
     }
     function djeq(args,toa) {
-      return args.map(e => e === toa).reduce((a,x) => a || x)
+      return args.map(e => e == toa).reduce((a,x) => a || x)
     }
     function dsiao(args,toa) {
-      return args.map(e => e.indexOf(toa) === 0).reduce((a,x) => a || x)
+      return args.map(e => e.indexOf(toa) == 0).reduce((a,x) => a || x)
     }
     function duasho(ta) {
       var mea = ""
-      var jeq = ""
-      var siao = ""
-      if (ta) {
-        toa=undiak(ta);
-        var fields = keyczs.filter(j => czs[j].b ).map(j => (e => data[e][j]))
-        for (i in data) {
-          var rec = fields.map(e => e(i)).filter(e => e !== undefined)
-          if (djeq(rec,toa)) { jeq += kaoti(i) } else if (dsiao(rec,toa)) { siao += kaoti(i) } else if (dmea(rec,toa)) { mea += kaoti(i) }
+      var fields = keyczs.filter(j => czs[j].b ).map(j => (e => data[e][j]))
+      if (fields.length) {
+        if (ta) {
+          var jeq = ""
+          var siao = ""
+          toa=undiak(ta);   
+          for (i in data) {
+            var rec = fields.map(e => e(i)).filter(e => e !== undefined)
+            if (djeq(rec,toa)) { jeq += kaoti(i) } else if (dsiao(rec,toa)) { siao += kaoti(i) } else if (dmea(rec,toa)) { mea += kaoti(i) }
+          }
+          gosho.innerHTML = (jeq+siao+mea)?(jeq+siao+mea):("<tr><td>Nothing found!</td></tr>")
+          window.history.pushState({}, null, "dic.html#"+ta);
+          document.title = "mỉetōa: "+ta
+        } else {
+          gosho.innerHTML = "<tr><td>Empty search!</td></tr>"
+          window.history.pushState({}, null, "dic.html#");
+          document.title = "mỉetōa"    
         }
-        document.getElementById("gosho").innerHTML = (jeq+siao+mea)?(jeq+siao+mea):("<tr><td>Nothing found!</td></tr>")
-      } else {
-        document.getElementById("gosho").innerHTML = "<tr><td>Empty search!</td></tr>";
+      } else { for (i in data) {
+        mea += kaoti(i) }; gosho.innerHTML = mea
+        window.history.pushState({}, null, "dic.html#");
+        document.title = "mỉetōa"    
       }
-      window.history.pushState({}, null, "dic.html#"+ta);
-      document.title = "mỉetōa: "+ta
       nitoa.focus();
     }
     function urldua() {
@@ -67,6 +75,7 @@
       czs = {"toaq":toaqcz,"den":dencz,"ten":tencz,"gen":gencz}
       keyczs = Object.keys(czs)
       nitoa = document.getElementById("nitoa");
+      gosho = document.getElementById("gosho")
       window.addEventListener('popstate', urldua);
       nitoa.focus();
       urldua();
@@ -76,10 +85,10 @@
 <body>
   <fieldset>
     <form>
-      <span class="check"><span class="sao"><span class="nui" id="toaq" onclick="toaqcz.m();duasho(nitov());" style="background:#ce0c78"></span></span><label>toaq</label></span>
-      <span class="check"><span class="sao"><span class="nui" id="den" onclick="dencz.m();duasho(nitov());" style="background:#ce0c78"></span></span><label>description</label></span>
-      <span class="check"><span class="sao"><span class="nui" id="ten" onclick="tencz.m();duasho(nitov());"></span></span><label>type</label></span>
-      <span class="check"><span class="sao"><span class="nui" id="gen" onclick="gencz.m();duasho(nitov());"></span></span><label>gloss</label></span>
+      <span class="check" onclick="toaqcz.m();duasho(nitov());"><span class="sao"><span class="nui" id="toaq" style="background:#ce0c78"></span></span><label>toaq</label></span>
+      <span class="check" onclick="dencz.m();duasho(nitov());"><span class="sao"><span class="nui" id="den" style="background:#ce0c78"></span></span><label>description</label></span>
+      <span class="check" onclick="tencz.m();duasho(nitov());"><span class="sao"><span class="nui" id="ten"></span></span><label>type</label></span>
+      <span class="check" onclick="gencz.m();duasho(nitov());"><span class="sao"><span class="nui" id="gen"></span></span><label>gloss</label></span>
     </form>
   </fieldset>
 <div id="tuai">
